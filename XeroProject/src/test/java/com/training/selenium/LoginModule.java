@@ -10,7 +10,8 @@ import com.relevantcodes.extentreports.LogStatus;
 public class LoginModule extends ReusableMethods{
 		static String s1,s2;
 		
-		String dt_path="C:\\Users\\sysadmin\\Desktop\\SeleniumTraining\\ExamSelenium\\ActualData.xls";		
+		//String dt_path="C:\\Users\\sysadmin\\Desktop\\SeleniumTraining\\ExamSelenium\\ActualData.xls";	
+		String dt_path="testData\\ActualData.xls";	
 		private void setLogin() throws IOException
 		{
 			String[][] retData=readExcelData(dt_path,"Sheet1");

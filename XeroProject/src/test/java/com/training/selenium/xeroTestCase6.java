@@ -44,9 +44,9 @@ public class xeroTestCase6 extends xeroTestCases{
 
 		Thread.sleep(4000);
 
-		//Upload Image button click 
+		//Upload Image button click  
 		try {
-			WebElement uploadImage=driver.findElement(By.xpath("//*[@id=\'button-1041\']"));
+			WebElement uploadImage=driver.findElement(By.xpath("//*[@id=\"uploadavatarfield-1036\"]"));
 			clickObject(uploadImage,"uploadImage Button");
 			logger.log(LogStatus.PASS, "you are now in uploadImage dialogbox");
 		}
@@ -57,19 +57,16 @@ public class xeroTestCase6 extends xeroTestCases{
 		
 		Thread.sleep(2000);
 		//Switch to photo frame
-		WebElement photoframe=driver.findElement(By.id("post_office_modal_frame"));
-		driver.switchTo().frame(photoframe);
+		//WebElement photoframe=driver.findElement(By.id("post_office_modal_frame"));
+		//driver.switchTo().frame(photoframe);
 		//System.out.println("photoframe");
 
 		Thread.sleep(5000);
 		
 		//Browse button click 
 		 
-		try {
-			
-			
-			driver.findElement(By.cssSelector("#filefield-1174-button-fileInputEl")).sendKeys("D:\\SeleniumTraining\\football.jpg");
-			
+		try {					
+			driver.findElement(By.xpath("//*[@id=\"filefield-1202-button-fileInputEl\"]")).sendKeys("D:\\SeleniumTraining\\football.jpg");		
 		}
 		catch (Exception e){
 			logger.log(LogStatus.FAIL,"Exception  browse button click failed");
