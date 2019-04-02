@@ -63,7 +63,7 @@ public class ReusableMethods {
 	public static void startTest()
 	{
 		//("user.dir") +"/test-output/homeExtentReport.html", true)
-		report = new ExtentReports(System.getProperty("user.dir") +"/test-output/XeroExtentReport.html", true);
+		report = new ExtentReports(System.getProperty("user.dir") +"/test-output/XeroExtentReport.html", false);
 	}
 	/*
 	 * Name of the method : enterText
