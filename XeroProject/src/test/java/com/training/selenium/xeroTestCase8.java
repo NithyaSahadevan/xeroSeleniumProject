@@ -397,6 +397,322 @@ public class xeroTestCase8 extends xeroTestCases{
 		Thread.sleep(2000);
 		driver.quit();
 	}
+	
+	public void TC08D_growingPlan() throws InterruptedException, IOException
+	{
+		String[][] retData=readExcelData(dt_path,"TC08C");	
+		//String url = retData[1][1];
+		String userEmail = retData[1][2];
+		String pwd = retData[1][3];
+		String org = retData[1][4];
+		String countryName = retData[1][5];
+		String time = retData[1][6];
+		String occ = retData[1][7];
+		String streetName = retData[1][8];
+		String cityName = retData[1][9];
+		String stateName = retData[1][10];
+		String zip = retData[1][11];
+		String cardNumber = retData[1][12];
+		String expiryDate = retData[1][13];
+		String cvcCode = retData[1][14];
+		String cardName = retData[1][15];
+		
+		LaunchPage();
+
+		loginLink();
+		//Enter User name
+		WebElement userName = driver.findElement(By.xpath("//*[@id='email']"));							
+		enterText(userName, userEmail, "UserName");
+
+		//Enter Password
+		WebElement password = driver.findElement(By.xpath("//*[@id='password']"));						
+		enterText(password, pwd, "Password");
+		
+		//Click Login
+		WebElement login = driver.findElement(By.xpath("//*[@id='submitButton']"));							
+		clickObject(login, "Login");
+		Thread.sleep(2000);
+		
+		Thread.sleep(2000);
+		//Click Xero Menu 
+		WebElement xeroMenu = driver.findElement(By.xpath("/html/body/div[1]/header/div/div[1]/button"));		
+		clickObject(xeroMenu, "Xero Menu");
+		driver.manage().timeouts().implicitlyWait(30,TimeUnit.SECONDS);
+		
+		//Click my Xero 
+		WebElement myXero = driver.findElement(By.xpath("/html/body/div[1]/header/div/div[1]/div/div[2]/div[4]/ol/li/a"));		
+		clickObject(myXero, "My Xero");
+		Thread.sleep(4000);
+		
+		String winHandleBefore = driver.getWindowHandle();
+		// Switch to new window opened
+		for(String winHandle : driver.getWindowHandles()){
+			driver.switchTo().window(winHandle);
+		}
+
+		
+		//Click add organization 
+		WebElement addOrg = driver.findElement(By.id("ext-gen1043"));		
+		clickObject(addOrg, "Add Organization");
+		Thread.sleep(4000);
+		
+		
+		//Enter organization name
+		WebElement orgName = driver.findElement(By.id("text-1022-inputEl"));			
+		enterText(orgName, org, "Organization Name");
+		
+		//select country
+		WebElement country = driver.findElement(By.xpath("//*[@id=\"countryCmb-inputEl\"]"));			
+		enterText(country, countryName, "Country");
+		Thread.sleep(2000);
+		country.sendKeys(Keys.ENTER);
+		
+		//select time zone
+		WebElement timeZone = driver.findElement(By.xpath("//*[@id='cmbTimeZone-inputEl']"));			
+		enterText(timeZone, time, "Time Zone");
+		Thread.sleep(2000);
+		timeZone.sendKeys(Keys.ENTER);
+		
+		//Enter organization occupation
+		WebElement occupation = driver.findElement(By.id("industrysearchcombofield-1025-inputEl"));	
+		enterText(occupation, occ, "What does your Organization do?");
+		occupation.sendKeys(Keys.DOWN);
+		occupation.sendKeys(Keys.DOWN);
+		Thread.sleep(2000);
+		occupation.sendKeys(Keys.ENTER);
+		
+		//Click Buy Now 
+		WebElement buyNow = driver.findElement(By.xpath("//*[@id=\"simplebutton-1036\"]"));		
+		clickObject(buyNow, "Buy Now");
+		Thread.sleep(3000);
+		
+		//Click Starter plan 
+		//WebElement starterPlan = driver.findElement(By.xpath("/html/body/div[2]/div/div/div/div/div[3]/div/div/div/section[1]/div[1]/label/div"));		
+		//clickObject(starterPlan, "Starter Plan");
+		
+		
+		//Click continue billing 
+		WebElement continueBilling = driver.findElement(By.xpath("//*[@id=\"continueButton\"]"));		
+		clickObject(continueBilling, "Continue to billing details");
+		
+		//Enter street
+		WebElement street = driver.findElement(By.xpath("//*[@id=\"contactAddress\"]"));						
+		enterText(street, streetName, "Street Address");
+		
+		//Enter city
+		WebElement city = driver.findElement(By.xpath("//*[@id=\"contactCity\"]"));						
+		enterText(city, cityName, "City");
+		
+		//selecting desired state option from the list
+		
+		WebElement selectMenu = driver.findElement(By.xpath("/html/body/div[2]/div/div/div/div/div[2]/div[3]/div/div/div/form/div[5]/div[4]/div/button"));
+		selectMenu.click();
+		Thread.sleep(2000);
+		driver.findElement(By.id(stateName)).click();
+		
+		//Enter zip code
+		WebElement zipCode = driver.findElement(By.xpath("//*[@id=\"contactPostalCode\"]"));						
+		enterText(zipCode, zip, "Zip Code");
+
+		//Click continue review and pay 
+		WebElement continuePay = driver.findElement(By.xpath("/html/body/div[2]/div/div/div/div/div[2]/div[3]/div/div/div/div/button"));		
+		clickObject(continuePay, "Continue to review and pay");
+		Thread.sleep(3000);
+		
+		//Enter credit card number
+		driver.switchTo().frame("__privateStripeFrame7");
+		String cardPath = "/html/body/div/form/span[2]/span/input";
+		WebElement creditCardNumber = driver.findElement(By.xpath(cardPath));
+		enterText(creditCardNumber, cardNumber, "Credit Card Number");							
+		driver.switchTo().defaultContent();
+		
+		//Enter credit card expiry date
+		driver.switchTo().frame("__privateStripeFrame8");
+		System.out.println("Switched to frame");
+		String expiryPath = "/html/body/div/form/span[2]/span/input";
+		WebElement creditCardExpiry = driver.findElement(By.xpath(expiryPath));						
+		enterText(creditCardExpiry,expiryDate, "Credit Card Expiry Date");
+		driver.switchTo().defaultContent();
+		
+		//Enter credit card cvc security code
+		driver.switchTo().frame("__privateStripeFrame9");
+		String cvcPath = "/html/body/div/form/span[2]/span/input";
+		WebElement cvc = driver.findElement(By.xpath(cvcPath));							
+		enterText(cvc, cvcCode, "CVC Security Code");
+		driver.switchTo().defaultContent();
+		
+		//Enter name on credit card 
+		WebElement nameOnCard = driver.findElement(By.xpath("//*[@id=\"stripe-cardholder-name\"]"));						
+		enterText(nameOnCard, cardName, "Name on Card");
+		
+		//Click Authorize Payment 
+		WebElement authorizePay = driver.findElement(By.xpath("//*[@id=\"continueButton\"]"));		
+		clickObject(authorizePay, "Authorize Payment");
+		
+		Thread.sleep(5000);
+		
+		endTest();
+		Thread.sleep(2000);
+		driver.quit();
+	}
+
+	public void TC08E_establishedPlan() throws InterruptedException, IOException
+	{
+		String[][] retData=readExcelData(dt_path,"TC08C");	
+		//String url = retData[1][1];
+		String userEmail = retData[1][2];
+		String pwd = retData[1][3];
+		String org = retData[1][4];
+		String countryName = retData[1][5];
+		String time = retData[1][6];
+		String occ = retData[1][7];
+		String streetName = retData[1][8];
+		String cityName = retData[1][9];
+		String stateName = retData[1][10];
+		String zip = retData[1][11];
+		String cardNumber = retData[1][12];
+		String expiryDate = retData[1][13];
+		String cvcCode = retData[1][14];
+		String cardName = retData[1][15];
+		
+		LaunchPage();
+
+		loginLink();
+		//Enter User name
+		WebElement userName = driver.findElement(By.xpath("//*[@id='email']"));							
+		enterText(userName, userEmail, "UserName");
+
+		//Enter Password
+		WebElement password = driver.findElement(By.xpath("//*[@id='password']"));						
+		enterText(password, pwd, "Password");
+		
+		//Click Login
+		WebElement login = driver.findElement(By.xpath("//*[@id='submitButton']"));							
+		clickObject(login, "Login");
+		Thread.sleep(2000);
+		
+		Thread.sleep(2000);
+		//Click Xero Menu 
+		WebElement xeroMenu = driver.findElement(By.xpath("/html/body/div[1]/header/div/div[1]/button"));		
+		clickObject(xeroMenu, "Xero Menu");
+		driver.manage().timeouts().implicitlyWait(30,TimeUnit.SECONDS);
+		
+		//Click my Xero 
+		WebElement myXero = driver.findElement(By.xpath("/html/body/div[1]/header/div/div[1]/div/div[2]/div[4]/ol/li/a"));		
+		clickObject(myXero, "My Xero");
+		Thread.sleep(4000);
+		
+		String winHandleBefore = driver.getWindowHandle();
+		// Switch to new window opened
+		for(String winHandle : driver.getWindowHandles()){
+			driver.switchTo().window(winHandle);
+		}
+
+		
+		//Click add organization 
+		WebElement addOrg = driver.findElement(By.id("ext-gen1043"));		
+		clickObject(addOrg, "Add Organization");
+		Thread.sleep(4000);
+		
+		
+		//Enter organization name
+		WebElement orgName = driver.findElement(By.id("text-1022-inputEl"));			
+		enterText(orgName, org, "Organization Name");
+		
+		//select country
+		WebElement country = driver.findElement(By.xpath("//*[@id=\"countryCmb-inputEl\"]"));			
+		enterText(country, countryName, "Country");
+		Thread.sleep(2000);
+		country.sendKeys(Keys.ENTER);
+		
+		//select time zone
+		WebElement timeZone = driver.findElement(By.xpath("//*[@id='cmbTimeZone-inputEl']"));			
+		enterText(timeZone, time, "Time Zone");
+		Thread.sleep(2000);
+		timeZone.sendKeys(Keys.ENTER);
+		
+		//Enter organization occupation
+		WebElement occupation = driver.findElement(By.id("industrysearchcombofield-1025-inputEl"));	
+		enterText(occupation, occ, "What does your Organization do?");
+		occupation.sendKeys(Keys.DOWN);
+		occupation.sendKeys(Keys.DOWN);
+		Thread.sleep(2000);
+		occupation.sendKeys(Keys.ENTER);
+		
+		//Click Buy Now 
+		WebElement buyNow = driver.findElement(By.xpath("//*[@id=\"simplebutton-1036\"]"));		
+		clickObject(buyNow, "Buy Now");
+		Thread.sleep(3000);
+		
+		//Click Established plan 
+		WebElement establishedPlan = driver.findElement(By.xpath("/html/body/div[2]/div/div/div/div/div[2]/div[2]/div/section[3]/div[1]/label/div"));		
+		clickObject(establishedPlan, "Starter Plan");
+		
+		
+		//Click continue billing 
+		WebElement continueBilling = driver.findElement(By.xpath("/html/body/div[2]/div/div/div/div/div[2]/div[4]/div/button/span"));		
+		clickObject(continueBilling, "Continue to billing details");
+		
+		//Enter street
+		WebElement street = driver.findElement(By.xpath("//*[@id=\"contactAddress\"]"));						
+		enterText(street, streetName, "Street Address");
+		
+		//Enter city
+		WebElement city = driver.findElement(By.xpath("//*[@id=\"contactCity\"]"));						
+		enterText(city, cityName, "City");
+		
+		//selecting desired state option from the list
+		
+		WebElement selectMenu = driver.findElement(By.xpath("/html/body/div[2]/div/div/div/div/div[2]/div[3]/div/div/div/form/div[5]/div[4]/div/button"));
+		selectMenu.click();
+		Thread.sleep(2000);
+		driver.findElement(By.id(stateName)).click();
+		
+		//Enter zip code
+		WebElement zipCode = driver.findElement(By.xpath("//*[@id=\"contactPostalCode\"]"));						
+		enterText(zipCode, zip, "Zip Code");
+
+		//Click continue review and pay 
+		WebElement continuePay = driver.findElement(By.xpath("/html/body/div[2]/div/div/div/div/div[2]/div[3]/div/div/div/div/button"));		
+		clickObject(continuePay, "Continue to review and pay");
+		Thread.sleep(3000);
+		
+		//Enter credit card number
+		driver.switchTo().frame("__privateStripeFrame7");
+		String cardPath = "/html/body/div/form/span[2]/span/input";
+		WebElement creditCardNumber = driver.findElement(By.xpath(cardPath));
+		enterText(creditCardNumber, cardNumber, "Credit Card Number");							
+		driver.switchTo().defaultContent();
+		
+		//Enter credit card expiry date
+		driver.switchTo().frame("__privateStripeFrame8");
+		System.out.println("Switched to frame");
+		String expiryPath = "/html/body/div/form/span[2]/span/input";
+		WebElement creditCardExpiry = driver.findElement(By.xpath(expiryPath));						
+		enterText(creditCardExpiry,expiryDate, "Credit Card Expiry Date");
+		driver.switchTo().defaultContent();
+		
+		//Enter credit card cvc security code
+		driver.switchTo().frame("__privateStripeFrame9");
+		String cvcPath = "/html/body/div/form/span[2]/span/input";
+		WebElement cvc = driver.findElement(By.xpath(cvcPath));							
+		enterText(cvc, cvcCode, "CVC Security Code");
+		driver.switchTo().defaultContent();
+		
+		//Enter name on credit card 
+		WebElement nameOnCard = driver.findElement(By.xpath("//*[@id=\"stripe-cardholder-name\"]"));						
+		enterText(nameOnCard, cardName, "Name on Card");
+		
+		//Click Authorize Payment 
+		WebElement authorizePay = driver.findElement(By.xpath("//*[@id=\"continueButton\"]"));		
+		clickObject(authorizePay, "Authorize Payment");
+		
+		Thread.sleep(5000);
+		
+		endTest();
+		Thread.sleep(2000);
+		driver.quit();
+	}
 
 	public void TC08F_QuickBooks() throws InterruptedException, IOException
 	{
